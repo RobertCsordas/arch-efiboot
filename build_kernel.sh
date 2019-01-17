@@ -19,7 +19,7 @@ for k in $BOOTDIR/vmlinuz*; do
 	else
 		# Do not fail on AMD systems
 		echo "    Intel microcode not found. Skipping."
-		INITRDFILE="$UCODE"
+		INITRDFILE="$INITRD"
 	fi
 
 	# Check for custom command line for the kernel.
