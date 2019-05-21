@@ -30,7 +30,7 @@ mkdir -p /etc/pacman.d/hooks/
 cp kernel-update.hook /etc/pacman.d/hooks
 ```
 
-When completed, you can use efibootmgr to setup the boot item, or your BIOS settings might have an option to chose the file from the ESP partition (as with Dell XPS 9560). It works wither way.
+When completed, you can use efibootmgr to setup the boot item, or your BIOS settings might have an option to chose the file from the ESP partition (as with Dell XPS 9560). It works either way.
 
 ## Custom command line parameters
 
