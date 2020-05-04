@@ -2,7 +2,6 @@
 
 TARGET=/boot
 BOOTDIR=/boot
-CMDLINE_DIR=$BOOTDIR/
 UCODE=$BOOTDIR/intel-ucode.img
 EFISTUB=/usr/lib/systemd/boot/efi/linuxx64.efi.stub
 
@@ -23,11 +22,11 @@ for k in $BOOTDIR/vmlinuz*; do
 	fi
 
 	# Check for custom command line for the kernel.
-	CMDLINE="$CMDLINE_DIR/cmdline-$NAME.txt"
+	CMDLINE="$BOOTDIR/cmdline-$NAME.txt"
 	if [ -f "$CMDLINE" ]; then
 		echo "    Using custom command line $CMDLINE"
 	else
-		CMDLINE="$CMDLINE_DIR/cmdline.txt"
+		CMDLINE="$BOOTDIR/cmdline.txt"
 		if [ ! -f "$CMDLINE" ]; then
 			echo "CMDLINE missing. Extracting from running kernel..."
 			cat /proc/cmdline |sed 's/BOOT_IMAGE=[^ ]* \?//' > "$CMDLINE"
