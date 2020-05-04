@@ -16,7 +16,17 @@ The problem remaining is that this manually builds the kernel, but does not run 
 
 ## How to install
 
-If your EFI partition is mounted as /boot (as recommended in https://wiki.archlinux.org/index.php/EFI_system_partition) and your kernels are installed there, you can just run 
+### AUR
+
+*Note: this method is only suited for systems with EFI partition mounted as /boot (as recommended in https://wiki.archlinux.org/index.php/EFI_system_partition) and with kernels installed there. For other setups, see [manual installation instructions](#manual-installation).*
+
+Install the [AUR package](https://aur.archlinux.org/packages/arch-efiboot/).
+
+### Manual installation
+
+[Download the repository](https://github.com/xdever/arch-efiboot/archive/master.zip) onto your system.
+
+If your EFI partition is mounted as /boot and your kernels are installed there, run
 
 ```
 sudo install.sh
@@ -29,6 +39,8 @@ cp build_kernel.sh to /opt
 mkdir -p /etc/pacman.d/hooks/
 cp kernel-update.hook /etc/pacman.d/hooks
 ```
+
+## EFI boot entries
 
 When completed, you can use efibootmgr to setup the boot item, or your BIOS settings might have an option to chose the file from the ESP partition (as with Dell XPS 9560). It works either way.
 
