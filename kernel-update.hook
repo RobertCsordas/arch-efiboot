@@ -4,6 +4,7 @@ Operation = Upgrade
 Operation = Install
 Target = linux*
 Target = intel-ucode
+Target = systemd
 
 [Action]
 Description = Updating EFI kernel images
