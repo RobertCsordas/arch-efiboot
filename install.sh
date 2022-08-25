@@ -10,9 +10,9 @@ if [ "$(id -u)" -ne 0 ]; then
 	exit 1
 fi
 
-cp build_kernel.sh /opt/
+cp build_efi_kernels.sh /opt/
 mkdir -p /etc/pacman.d/hooks
-cp kernel-update.hook /etc/pacman.d/hooks/
+cp hooks/* /etc/pacman.d/hooks/
 
 echo "Install completed. Building kernels..."
 

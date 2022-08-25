@@ -32,12 +32,12 @@ If your EFI partition is mounted as /boot and your kernels are installed there, 
 sudo install.sh
 ```
 
-If not, please edit build_kernel.sh and install it manually. You can do it by running
+If not, please edit build_efi_kernel.sh and install it manually. You can do it by running
 
 ```
-cp build_kernel.sh to /opt
-mkdir -p /etc/pacman.d/hooks/
-cp kernel-update.hook /etc/pacman.d/hooks
+cp build_efi_kernel.sh to /opt
+mkdir -p /etc/pacman.d/hooks
+cp hook/* /etc/pacman.d/hooks/
 ```
 
 ## EFI boot entries

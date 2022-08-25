@@ -1,15 +1,30 @@
-#!/bin/bash
+#!/bin/bash -e
 
 TARGET=/boot
 BOOTDIR=/boot
 UCODE=$BOOTDIR/intel-ucode.img
 EFISTUB=/usr/lib/systemd/boot/efi/linuxx64.efi.stub
 
-echo "Updating EFI kernels..."
+if [[ $# -gt 0 ]]; then
+	KERNEL_IMAGES=()
+	for KERNEL in "$@"; do
+		KERNEL_IMAGE="${BOOTDIR}/vmlinuz-${KERNEL}"
 
-for k in $BOOTDIR/vmlinuz*; do
+		if [ ! -f "${KERNEL_IMAGE}" ]; then
+			echo "Kernel \"${KERNEL}\" not available."
+
+			exit 1;
+		fi
+
+		KERNEL_IMAGES+=("${KERNEL_IMAGE}")
+	done
+else
+	KERNEL_IMAGES=($BOOTDIR/vmlinuz*)
+fi
+
+for k in "${KERNEL_IMAGES[@]}"; do
 	NAME=$(basename $k|sed 's/vmlinuz-//')
-	echo "  Building $NAME"
+	echo "Updating EFI kernel $NAME..."
 	INITRD="$BOOTDIR/initramfs-$NAME.img"
 
 	if [ -f "$UCODE" ]; then
@@ -17,18 +32,18 @@ for k in $BOOTDIR/vmlinuz*; do
 		INITRDFILE=/tmp/initrd.bin
 	else
 		# Do not fail on AMD systems
-		echo "    Intel microcode not found. Skipping."
+		echo "  Intel microcode not found. Skipping."
 		INITRDFILE="$INITRD"
 	fi
 
 	# Check for custom command line for the kernel.
 	CMDLINE="$BOOTDIR/cmdline-$NAME.txt"
 	if [ -f "$CMDLINE" ]; then
-		echo "    Using custom command line $CMDLINE"
+		echo "  Using custom command line $CMDLINE"
 	else
 		CMDLINE="$BOOTDIR/cmdline.txt"
 		if [ ! -f "$CMDLINE" ]; then
-			echo "CMDLINE missing. Extracting from running kernel..."
+			echo "  CMDLINE missing. Extracting from running kernel..."
 			cat /proc/cmdline |sed 's/BOOT_IMAGE=[^ ]* \?//' > "$CMDLINE"
 		fi
 	fi
